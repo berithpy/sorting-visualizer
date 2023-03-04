@@ -1,7 +1,10 @@
 # Sorting algorithms visualizer
 Theres a pretty famous youtube video which illustrate how they work, so I decided to make my own version of it.  
-I used React, Typescript and lodash for this project.
-Heres a short video of the webtoy working
+I used React, Typescript and lodash for this project.  
+Heres a short video of the webtoy working  
+
+
+https://user-images.githubusercontent.com/8316977/222876966-4c19b560-8305-4758-9dbc-4e15314312c6.mp4
 
 ## Available Scripts
 
