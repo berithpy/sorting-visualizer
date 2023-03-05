@@ -1,5 +1,6 @@
 {
   "name": "sorting-visualizer",
+  "homepage": "http://berith.moe/sorting-viz",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
