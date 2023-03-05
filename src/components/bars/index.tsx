@@ -1,18 +1,17 @@
 import React from 'react';
 import './bars.css';
 
-function Bar({ value, playing }: { value: number, playing: boolean }) {
+function Bar({ value, playing, heightIncrement }: { value: number, playing: boolean, heightIncrement: number }) {
     return (
         <div className="bar" style={
             {
                 "width": "5px",
-                "height": `${5 * value}px`,
+                "height": `${heightIncrement * value}px`,
                 "backgroundColor": playing ? "red" : "white",
                 "color": "black",
                 "marginTop": "auto"
             }
         }>
-            {/* {value} */}
         </div>
     )
 }
@@ -21,8 +20,9 @@ type BarsProps = {
     playing: number
 }
 function Bars({ numbers, playing }: BarsProps) {
+    const heightIncrement = 250 / numbers.length;
     const barsGroup = numbers.map((number, index) => {
-        return <Bar key={index} value={number} playing={number === playing} />;
+        return <Bar key={index} value={number} playing={number === playing} heightIncrement={heightIncrement} />;
     });
     return (
         <div className="bars">

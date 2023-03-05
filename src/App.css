@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  font-family: 'Courier New', monospace;
 }
 
 .App-logo {
@@ -32,7 +33,21 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.label {
+  font-size: 0.5em;
+  margin: 0.5em;
+}
+
+.input {
+  width: 3em;
+}
+
+.flex-container {
+  display: flex;
 }

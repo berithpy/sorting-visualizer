@@ -1,24 +1,29 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import range from 'lodash/range';
 import shuffle from 'lodash/shuffle';
-import uniq from 'lodash/uniq';
 import Bars from './components/bars';
 import './App.css';
-import context from './context';
 import Oscillator from './components/oscillator';
-import { ListFormat } from 'typescript';
 
 function App() {
 
 
   const [listLength, setListLength] = useState(50)
-  const [sortSpeed, setSortSpeed] = useState(0.1)
+  const [sortSpeed, setSortSpeed] = useState(1)
   const [list, setList] = useState<number[]>(shuffle(range(1, listLength)))
   const [playing, setPlaying] = useState(0)
   const [playingFrequency, setPlayingFrequency] = useState(0)
   const [algorithm, setAlgorithm] = useState('bubbleSort')
   const [disableActions, setDisableActions] = useState(false)
 
+  const generateCallback = useCallback(() => {
+    setList(shuffle(range(1, listLength)))
+    setPlaying(0)
+  }, [listLength])
+
+  useEffect(() => {
+    generateCallback()
+  }, [listLength, generateCallback])
   function playOnclick() {
     play(0)
   }
@@ -356,9 +361,6 @@ function App() {
     setDisableActions(false)
   }
 
-  function generate() {
-    setList(shuffle(range(1, listLength)))
-  }
 
   function sleep(milliSeconds: number) {
     return new Promise((resolve: any) => setTimeout(resolve, milliSeconds))
@@ -367,10 +369,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Bars numbers={list} playing={playing}></Bars>
         <Oscillator frequency={playingFrequency} />
-        <div style={{ "display": "flex" }}>
-          <select name="sortingalgos" id="algos" onChange={(e) => { setAlgorithm(e.target.value) }}>
+        <Bars numbers={list} playing={playing} />
+        <div className='flex-container'>
+          <select name="algpicker" id="algpicker" onChange={(e) => { setAlgorithm(e.target.value) }}>
             <option value="bubbleSort">bubblesort</option>
             <option value="selectionSort">selectionSort</option>
             <option value="insertionSort">insertionSort</option>
@@ -379,11 +381,45 @@ function App() {
             <option value="heapSort">heapsort</option>
           </select>
           <button onClick={handleSorting} disabled={disableActions}>sort</button>
-          <button onClick={generate} disabled={disableActions}>generate</button>
+          <button onClick={generateCallback} disabled={disableActions}>generate</button>
           <button onClick={playOnclick} disabled={disableActions}>play</button>
         </div>
-      </header>
-    </div>
+        <div className='flex-container'>
+          <div>
+            <label htmlFor="Speed" className="label">Delay:</label>
+            <input
+              disabled={disableActions}
+              className="input"
+              type="number"
+              id="Speed"
+              name="Speed"
+              min="1"
+              max="100"
+              step="10"
+              value={sortSpeed}
+              onChange={(e) => {
+                setSortSpeed(Number(e.target.value))
+              }} />
+          </div>
+          <div>
+            <label htmlFor="Amount" className="label">Size:</label>
+            <input
+              disabled={disableActions}
+              className="input"
+              type="number"
+              id="Amount"
+              name="Amount"
+              min="5"
+              max="100"
+              step="1"
+              value={listLength}
+              onChange={(e) => {
+                setListLength(Number(e.target.value))
+              }} />
+          </div>
+        </div>
+      </header >
+    </div >
   );
 }
 
